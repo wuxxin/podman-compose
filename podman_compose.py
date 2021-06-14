@@ -693,6 +693,8 @@ def container_to_args(compose, cnt, detached=True):
         podman_args.extend(['--cap-drop', c])
     for d in cnt.get('devices', []):
         podman_args.extend(['--device', d])
+    for d in cnt.get('group_add', []):
+        podman_args.extend(['--group-add', d])
     env_file = cnt.get('env_file', [])
     if is_str(env_file): env_file = [env_file]
     for i in env_file:
@@ -738,6 +740,8 @@ def container_to_args(compose, cnt, detached=True):
         podman_args.extend(['-w', cnt['working_dir']])
     if cnt.get('hostname', None):
         podman_args.extend(['--hostname', cnt['hostname']])
+    if cnt.get('ipc', None):
+        podman_args.extend(['--ipc', cnt['ipc']])
     if cnt.get('shm_size', None):
         podman_args.extend(['--shm-size', '{}'.format(cnt['shm_size'])])
     if cnt.get('stdin_open', None):
